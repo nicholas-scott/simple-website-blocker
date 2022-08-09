@@ -5,9 +5,8 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.tabs.onUpdated.addListener( (tabId, changeInfo, tab) => {
-    var activeTabUrl = webReg.exec(tab.url)[0]
-
-    if (changeInfo.status == 'complete') {
+    if (changeInfo.status == 'complete' && tab.url) {
+        var activeTabUrl = webReg.exec(tab.url)[0]
         chrome.storage.sync.get(['blackList'], result =>  {
             var blackList = result.blackList
 
