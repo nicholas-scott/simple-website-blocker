@@ -5,8 +5,12 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.tabs.onUpdated.addListener( (tabId, changeInfo, tab) => {
-    if (changeInfo.status == 'complete' && tab.url) {
-        var activeTabUrl = webReg.exec(tab.url)[0]
+    if (changeInfo.status == 'complete') {
+        var activeTabUrlReg = webReg.exec(tab.url)
+        if(!activeTabUrlReg){
+            return
+        }
+        var activeTabUrl = activeTabUrlReg[0]
         chrome.storage.sync.get(['blackList'], result =>  {
             var blackList = result.blackList
 
@@ -17,6 +21,7 @@ chrome.tabs.onUpdated.addListener( (tabId, changeInfo, tab) => {
                     function: () => {
                         document.body.innerHTML = ""
                         document.body.style.background = 'white'
+                        console.log("goteem")
                     },
                 })
             }

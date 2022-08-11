@@ -8,14 +8,22 @@ const innitMain =  () => {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
         // must be var so it can be accessed in blackList callback 
         // Sets the header to be website url without 
-        var activeTab = tabs[0];
-        var activeTabUrl = webReg.exec(activeTab.url)[0]
+        var activeTab = tabs[0]
+        var activeTabUrlRegArr = webReg.exec(activeTab.url)
+        
+        if(!activeTabUrlRegArr){
+            websiteHeader.innerText = "Nothing to block here!"
+            blockButton.style.display = "none"
+            activeTabUrl = ""
+            return 
+        }
+
+        var activeTabUrl = activeTabUrlRegArr[0]
         websiteHeader.innerText = activeTabUrl
         
         //Get blackList 
         chrome.storage.sync.get(['blackList'], result => {
             var blackList = result.blackList
-
             let isBlocked = blackList.includes(activeTabUrl)
             
             // set button text appropriately 
@@ -39,7 +47,7 @@ const innitMain =  () => {
                     blackList.push(activeTabUrl)
                 }
             }   
-
+            
             // Attach event listener 
             blockButton.addEventListener("click", () => {
                 updateBlackList()
