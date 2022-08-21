@@ -13,7 +13,6 @@ chrome.tabs.onUpdated.addListener( (tabId, changeInfo, tab) => {
         var activeTabUrl = activeTabUrlReg[0]
         chrome.storage.sync.get(['blackList'], result =>  {
             var blackList = result.blackList
-
             //If list is blocked
             if(blackList.includes(activeTabUrl)){
                 chrome.scripting.executeScript({
@@ -21,10 +20,10 @@ chrome.tabs.onUpdated.addListener( (tabId, changeInfo, tab) => {
                     function: () => {
                         document.body.innerHTML = ""
                         document.body.style.background = 'white'
-                        console.log("goteem")
                     },
                 })
             }
         })
     }
   })
+
