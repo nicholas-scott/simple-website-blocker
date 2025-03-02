@@ -1,33 +1,33 @@
 const websiteHeader = document.getElementById('url-text')
 const blockButton = document.getElementById('block-button')
 const websiteBody = document.getElementsByTagName('body')[0]
-const webReg = /[((www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9]*)/ 
+const webReg = /[((www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9]*)/
 
 const innitMain =  () => {
     //Get current page
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-        // must be var so it can be accessed in blackList callback 
-        // Sets the header to be website url without 
+        // must be var so it can be accessed in blackList callback
+        // Sets the header to be website url without
         var activeTab = tabs[0]
         var activeTabUrlRegArr = webReg.exec(activeTab.url)
-        
+
         if(!activeTabUrlRegArr){
             websiteHeader.innerText = "Nothing to block here!"
             blockButton.style.display = "none"
             activeTabUrl = ""
-            return 
+            return
         }
 
         var activeTabUrl = activeTabUrlRegArr[0]
         websiteHeader.innerText = activeTabUrl
-        
-        //Get blackList 
+
+        //Get blackList
         chrome.storage.sync.get(['blackList'], result => {
             var blackList = result.blackList
             let isBlocked = blackList.includes(activeTabUrl)
-            
-            // set button text appropriately 
-            let updateBlackList = null 
+
+            // set button text appropriately
+            let updateBlackList = null
             let onButtonPressText = ""
 
             if(isBlocked){
@@ -46,9 +46,9 @@ const innitMain =  () => {
                 updateBlackList = () => {
                     blackList.push(activeTabUrl)
                 }
-            }   
-            
-            // Attach event listener 
+            }
+
+            // Attach event listener
             blockButton.addEventListener("click", () => {
                 updateBlackList()
 
