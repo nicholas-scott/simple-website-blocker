@@ -1,7 +1,7 @@
 {
     "name": "Website Blocker",
     "description": "A simple extension that blocks websites",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "manifest_version": 3,
     "background": {
         "service_worker": "background.js"
@@ -18,5 +18,10 @@
     ],
     "action": {
         "default_popup": "popup.html"
-      }
+    },
+    "icons": {
+        "16": "images/green_16.png",
+        "48": "images/green_48.png",
+        "128": "images/green_128.png"
+    }
 }

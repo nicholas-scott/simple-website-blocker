@@ -22,6 +22,10 @@ chrome.tabs.onUpdated.addListener( (tabId, changeInfo, tab) => {
                         document.body.style.background = 'white'
                     },
                 })
+                chrome.action.setIcon({path: '/images/red_128.png', tabId: tabId});
+            }
+            else {
+                chrome.action.setIcon({path: '/images/green_128.png', tabId: tabId});
             }
         })
     }
